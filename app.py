@@ -30,7 +30,7 @@ PREFS = {
 }
 
 
-df = pd.read_csv('./population/c01.csv')
+df = pd.read_csv('./c01.csv')
 
 def manufactureData(df):
     df = df.drop('都道府県コード', axis=1)
