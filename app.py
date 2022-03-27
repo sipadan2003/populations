@@ -10,7 +10,7 @@ from pprint import pprint
 st.title('日本の人口')
 
 PREFS = {
-	'全国',
+    '全国',
     '北海道', '青森', '岩手', '宮城',   '秋田',
     '山形',   '福島', '茨城', '栃木',   '群馬',
     '埼玉',   '千葉'  '東京', '神奈川', '新潟',
@@ -23,7 +23,7 @@ PREFS = {
     '鹿児島', '沖縄'
 }
 
-df = pd.read_csv('population/c01.csv')
+df = pd.read_csv('./c01.csv')
 df = df.drop('都道府県コード', axis=1)
 df = df.drop('元号', axis=1)
 df = df.drop('和暦（年）', axis=1)
