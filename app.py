@@ -29,9 +29,8 @@ PREFS = (
     '鹿児島県', '沖縄県'
 )
 
-df = pd.read_csv('./c01.csv')
-
 def manufactureData(df):
+    """データを加工する"""
     df = df.drop('都道府県コード', axis=1)
     df = df.drop('元号', axis=1)
     df = df.drop('和暦（年）', axis=1)
@@ -45,6 +44,8 @@ def manufactureData(df):
     df['年'] = df['年'].astype(int)
     return df
 
+# CSVファイルを読み込み、データを加工する
+df = pd.read_csv('./c01.csv')
 df = manufactureData(df)
 
 st.sidebar.write("## グラフのオプション")
@@ -62,10 +63,7 @@ ymin, ymax = st.sidebar.slider(
 
 def concatDataFrames(allDf, pref, df):
     #    df1 = df[df.都道府県 == "北海道"]
-    #    df2 = df[df.都道府県 == "青森県"]
-    #    df3 = df[df.都道府県 == "沖縄県"]
     df2 = allDf[allDf.都道府県 == pref]
-    print(df2)
     return pd.concat([df, df2])
 
 if not prefs:
