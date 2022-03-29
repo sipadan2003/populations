@@ -15,7 +15,7 @@ from pprint import pprint
 
 st.title('日本の人口')
 
-PREFS = {
+PREFS = (
     '全国',
     '北海道', '青森県', '岩手県', '宮城県',   '秋田県',
     '山形県', '福島県', '茨城県', '栃木県',   '群馬県',
@@ -27,8 +27,7 @@ PREFS = {
     '徳島県', '香川県', '愛媛県', '高知県',   '福岡県',
     '佐賀県', '長崎県', '熊本県', '大分県',   '宮崎県',
     '鹿児島県', '沖縄県'
-}
-
+)
 
 df = pd.read_csv('./c01.csv')
 
@@ -48,6 +47,7 @@ def manufactureData(df):
 
 df = manufactureData(df)
 
+st.sidebar.write("## グラフのオプション")
 prefs = st.sidebar.multiselect(
     '都道府県',
     PREFS,
@@ -68,16 +68,18 @@ def concatDataFrames(allDf, pref, df):
     print(df2)
     return pd.concat([df, df2])
 
-data = pd.DataFrame()
-for p in prefs:
-    data = concatDataFrames(df, p, data)
+if not prefs:
+    st.error('少なくとも都道府県を1つは選んでください。')
+else:
+    data = pd.DataFrame()
+    for p in prefs:
+        data = concatDataFrames(df, p, data)
 
-print(data)
+    # print(data)
 
-chart = alt.Chart(data).mark_line().encode(
-    y=alt.Y("人口:Q", scale=alt.Scale(domain=[ymin, ymax])),
-#    y=alt.Y("人口:Q"),
-    x=alt.X('年:O'),
-    color='都道府県:N'
-)
-st.altair_chart(chart, use_container_width=True)
+    chart = alt.Chart(data).mark_line().encode(
+        y=alt.Y("人口:Q", scale=alt.Scale(domain=[ymin, ymax])),
+        x=alt.X('年:O'), # scaleを指定すると","が表示されてしまう
+        color='都道府県:N'
+    )
+    st.altair_chart(chart, use_container_width=True)
